@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.compose.ui.geometry.Rect
 
 @RequiresApi(Build.VERSION_CODES.N)
 class MyAccessibilityService : AccessibilityService() {
@@ -23,10 +24,15 @@ class MyAccessibilityService : AccessibilityService() {
         when (eventType) {
             AccessibilityEvent.TYPE_VIEW_CLICKED -> {
                 // Handle click event
-                val x = event.x.toInt()
-                val y = event.y.toInt()
-                showToast("Clicked at: ($x, $y)")
-                performClick(x, y)
+                val nodeInfo = event.source
+                if (nodeInfo != null) {
+                    val bounds = android.graphics.Rect()
+                    nodeInfo.getBoundsInScreen(bounds)
+                    val x = bounds.centerX()
+                    val y = bounds.centerY()
+                    showToast("Clicked at: ($x, $y)")
+                    performClick(x, y)
+                }
             }
             AccessibilityEvent.TYPE_VIEW_SCROLLED -> {
                 // Handle scroll event (if needed)

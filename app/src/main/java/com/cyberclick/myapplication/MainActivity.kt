@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         statusText = findViewById(R.id.statusText)
 
         webSocketClient = WebSocketClient(
-            url = "ws://192.168.1.69:3000",
+            url = "ws://192.168.1.72:3000",
             onMessageReceived = { message -> handleCommand(message, this@MainActivity) },
             updateStatus = { status -> updateStatus(status) }
         )
